@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/root_layout"
+        android:padding="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/text1"
+                android:text="文本"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <View
+                    android:id="@+id/view1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view2"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view3"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view4"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view5"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <View
+                    android:id="@+id/view2_1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view2_2"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view2_3"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view2_4"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view2_5"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <View
+                    android:id="@+id/view3_1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view3_2"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view3_3"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view3_4"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view3_5"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
