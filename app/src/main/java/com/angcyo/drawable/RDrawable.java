@@ -424,6 +424,15 @@ public class RDrawable {
         if (solidColor != NO_INT) {
             gradientDrawable.setColor(solidColor);
         }
+        if (width != NO_INT && height != NO_INT) {
+            gradientDrawable.setSize(width, height);
+        } else {
+            if (width != NO_INT) {
+                gradientDrawable.setSize(width, -1);
+            } else if (height != NO_INT) {
+                gradientDrawable.setSize(-1, height);
+            }
+        }
         gradientDrawable.setCornerRadii(radii);
 
         lastDrawable = gradientDrawable;
