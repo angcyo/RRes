@@ -1,6 +1,10 @@
 package com.angcyo.drawable
 
 import android.graphics.Color
+import android.graphics.LinearGradient
+import android.graphics.Shader
+import android.graphics.SweepGradient
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -98,6 +102,107 @@ class MainActivity : AppCompatActivity() {
             //.andRippleContent()
             .andRippleMask()
             .ripple()
+
+
+        findViewById<View>(R.id.view4_1).background = RDrawable.get(this)
+            .circle(Color.RED)
+            .doIt()
+
+        findViewById<View>(R.id.view4_2).background = RDrawable.get(this)
+            .circle()
+            .stroke(30, Color.YELLOW, 6f, 2f)
+            .normal()
+            .stroke(60, Color.RED)
+            .pressed(true)
+            .state()
+
+        findViewById<View>(R.id.view4_3).background = RDrawable.get(this)
+            .circle()
+            .stroke(50, Color.BLUE)
+            .rippleColor(Color.RED)
+            .andRippleContent()
+            .ripple()
+
+
+        findViewById<View>(R.id.view5_1).background = RDrawable.get(this)
+            .lineColor(Color.GREEN)
+            .rightLine(1)
+            .get()
+
+        findViewById<View>(R.id.view5_2).background = RDrawable.get(this)
+            .lineColor(Color.BLUE)
+            .topLine(2)
+            .get()
+
+        findViewById<View>(R.id.view5_3).background = RDrawable.get(this)
+            .lineColor(Color.RED)
+            .leftLine(4)
+            .get()
+
+        findViewById<View>(R.id.view5_4).background = RDrawable.get(this)
+            .lineColor(Color.BLACK)
+            .bottomLine(8)
+            .get()
+
+        findViewById<View>(R.id.view6_1).background = RDrawable.get(this)
+            .circle(Color.RED)
+            .addLayer()
+            .lineColor(Color.GREEN)
+            .rightLine(10)
+            .addLayer()
+//            .doIt()
+            .get()
+
+        findViewById<View>(R.id.view6_2).background = RDrawable.get(this)
+            .circle(Color.RED)
+            .addLayer()
+            .lineColor(Color.GREEN)
+            .rightLine(10)
+            .addLayer()
+            .andPressed(true)
+            .state()
+//            .get()
+
+        findViewById<View>(R.id.view6_3).background = RDrawable.get(this)
+            .gradientColors(Color.RED, Color.BLUE)
+            .cornerRadius(20f)
+            .andRippleContent()
+            .andRipple()
+            .get()
+
+        findViewById<View>(R.id.view6_4).background = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+//            setColor(Color.RED)
+            gradientType = GradientDrawable.LINEAR_GRADIENT
+            orientation = GradientDrawable.Orientation.LEFT_RIGHT
+            colors = intArrayOf(Color.RED, Color.GREEN)
+//            setGradientCenter(0.2f, 0.3f)
+//            gradientRadius = 0.6f
+            setStroke(10, Color.BLACK)
+//            useLevel = false
+
+//            cornerRadius = 6f
+        }
+
+        findViewById<View>(R.id.view5_5).background = RDrawable.get(this)
+            .stroke(30, Color.BLACK)
+            .circle(Color.BLUE)
+            .fillShader(SweepGradient(0.2f, 0.2f, Color.RED, Color.WHITE))
+            .doIt()
+
+//        findViewById<View>(R.id.view5_5).background = RDrawable.get(this)
+//            .stroke(30, Color.BLACK)
+//            .circle(Color.BLUE)
+//            .fillShader(SweepGradient(0.2f, 0.2f, Color.RED, Color.WHITE))
+//            .doIt()
+
+        findViewById<View>(R.id.view6_5).background = RDrawable.get(this)
+            .stroke(30, Color.BLACK)
+            .circle()
+            .strokeShader(LinearGradient(0F, 0F, 200F, -1F, Color.RED, Color.GREEN, Shader.TileMode.CLAMP))
+//            .gradientColors(Color.RED, Color.BLUE)
+//            .cornerRadius(20f)
+            .doIt()
     }
 
     override fun onPostResume() {
@@ -105,10 +210,9 @@ class MainActivity : AppCompatActivity() {
         val drawable1 = resources.getDrawable(R.drawable.shape1)
         val drawable2 = resources.getDrawable(R.drawable.shape2)
         val drawable3 = resources.getDrawable(R.drawable.shape_line)
+        val drawable4 = resources.getDrawable(R.drawable.shape_ring)
 
-        findViewById<View>(R.id.view2).background = drawable3.apply {
-            //            setBounds(0, 0, 100, 100)
-        }
+        findViewById<View>(R.id.view2).background = drawable4
         drawable1
     }
 }

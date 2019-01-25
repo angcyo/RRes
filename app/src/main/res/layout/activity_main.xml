@@ -10,6 +10,7 @@
 
     <LinearLayout
             android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
@@ -20,7 +21,7 @@
 
         <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             <View
@@ -52,7 +53,7 @@
         </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             <View
                     android:id="@+id/view2_1"
@@ -86,7 +87,7 @@
 
         <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             <View
                     android:id="@+id/view3_1"
@@ -112,6 +113,108 @@
 
             <View
                     android:id="@+id/view3_5"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <View
+                    android:id="@+id/view4_1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view4_2"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view4_3"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view4_4"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view4_5"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <View
+                    android:id="@+id/view5_1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view5_2"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view5_3"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view5_4"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view5_5"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <View
+                    android:id="@+id/view6_1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view6_2"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view6_3"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view6_4"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view6_5"
                     android:clickable="true"
                     android:layout_width="60dp"
                     android:layout_height="60dp"/>
