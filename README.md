@@ -1,7 +1,7 @@
 # RDrawable
 使用代码的方式,创建Drawable
 
-![](https://raw.githubusercontent.com/angcyo/RDrawable/master/art/png1.png)
+![](https://raw.githubusercontent.com/angcyo/RDrawable/master/art/png3.png)
 
 ---
 
@@ -50,6 +50,37 @@ RDrawable.get(this)
             .rightLine(10)
             .addLayer()
             .get()
+```
+
+```java
+RDrawable.get(applicationContext)
+            .shape(GradientDrawable.OVAL)
+            .gradientType(GradientDrawable.SWEEP_GRADIENT)
+            .gradientOrientation(GradientDrawable.Orientation.TOP_BOTTOM)
+            .gradientColors(intArrayOf("#004286FF".toColor(), "#224286FF".toColor(), "#884286FF".toColor()))
+            .addLayer()
+            .reset()
+            .shape(GradientDrawable.OVAL)
+            .solidColor("#224286FF".toColor())
+            .addLayer()
+            .layerInset(20)
+            .solidColor("#444286FF".toColor())
+            .addLayer()
+            .layerInset(40)
+            .solidColor("#664286FF".toColor())
+            .addLayer()
+            .andReset()
+            .andRotate(60f)
+            .andReset()
+//            .andReset()
+//            .clipGravity(Gravity.LEFT)
+//            .andWrapper()
+            .inset(30)
+            .andWrapper()
+            .andReset()
+            .clipWidth(0.4f)
+            //.andRotate(60f)
+            .wrapper()
 ```
 
 ---
