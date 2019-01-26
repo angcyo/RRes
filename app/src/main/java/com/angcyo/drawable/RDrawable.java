@@ -29,7 +29,7 @@ import java.util.Map;
  * @since 1.0.1
  */
 public class RDrawable {
-    public static final int NO_INT = -0xFFFFFF;
+    private static final int NO_INT = -0xFFFFFF;
 
     //<editor-fold desc="内部成员">
 
@@ -199,6 +199,8 @@ public class RDrawable {
     private void resetGradientValue() {
         //重新分配内存, 否则会覆盖原来的值
         radii = new float[8];
+        Arrays.fill(radii, 0f);
+
         shape = GradientDrawable.RECTANGLE;
         width = NO_INT;
         height = NO_INT;
