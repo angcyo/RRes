@@ -20,6 +20,7 @@
                 android:layout_height="wrap_content"/>
 
         <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -52,6 +53,7 @@
 
         </LinearLayout>
         <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -86,6 +88,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -120,6 +123,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -154,6 +158,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -188,6 +193,7 @@
         </LinearLayout>
 
         <LinearLayout
+                android:layout_marginTop="4dp"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
@@ -215,6 +221,41 @@
 
             <View
                     android:id="@+id/view6_5"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <View
+                    android:id="@+id/view7_1"
+                    android:layout_width="60dp"
+                    android:clickable="true"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view7_2"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view7_3"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+            <View
+                    android:id="@+id/view7_4"
+                    android:clickable="true"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
+
+            <View
+                    android:id="@+id/view7_5"
                     android:clickable="true"
                     android:layout_width="60dp"
                     android:layout_height="60dp"/>

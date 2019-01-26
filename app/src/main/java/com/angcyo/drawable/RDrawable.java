@@ -24,7 +24,7 @@ import java.util.Map;
  * @author angcyo
  * @date 2019/01/23
  * Copyright (c) 2019 Shenzhen O&M Cloud Co., Ltd. All rights reserved.
- * @since 1.0
+ * @since 1.0.1
  */
 public class RDrawable {
     public static final int NO_INT = -0xFFFFFF;
@@ -670,8 +670,28 @@ public class RDrawable {
         return this;
     }
 
-    public RDrawable setLayerInset(int layerInsetLeft, int layerInsetTop,
-                                   int layerInsetRight, int layerInsetBottom) {
+    public RDrawable layerInset(int layerInset) {
+        this.layerInsetLeft = layerInset;
+        this.layerInsetRight = layerInset;
+        this.layerInsetBottom = layerInset;
+        this.layerInsetTop = layerInset;
+        return this;
+    }
+
+    public RDrawable layerInsetHorizontal(int layerInset) {
+        this.layerInsetLeft = layerInset;
+        this.layerInsetRight = layerInset;
+        return this;
+    }
+
+    public RDrawable layerInsetVertical(int layerInset) {
+        this.layerInsetBottom = layerInset;
+        this.layerInsetTop = layerInset;
+        return this;
+    }
+
+    public RDrawable layerInset(int layerInsetLeft, int layerInsetTop,
+                                int layerInsetRight, int layerInsetBottom) {
         this.layerInsetLeft = layerInsetLeft;
         this.layerInsetRight = layerInsetRight;
         this.layerInsetBottom = layerInsetBottom;
@@ -679,22 +699,22 @@ public class RDrawable {
         return this;
     }
 
-    public RDrawable setLayerInsetLeft(int layerInsetLeft) {
+    public RDrawable layerInsetLeft(int layerInsetLeft) {
         this.layerInsetLeft = layerInsetLeft;
         return this;
     }
 
-    public RDrawable setLayerInsetRight(int layerInsetRight) {
+    public RDrawable layerInsetRight(int layerInsetRight) {
         this.layerInsetRight = layerInsetRight;
         return this;
     }
 
-    public RDrawable setLayerInsetBottom(int layerInsetBottom) {
+    public RDrawable layerInsetBottom(int layerInsetBottom) {
         this.layerInsetBottom = layerInsetBottom;
         return this;
     }
 
-    public RDrawable setLayerInsetTop(int layerInsetTop) {
+    public RDrawable layerInsetTop(int layerInsetTop) {
         this.layerInsetTop = layerInsetTop;
         return this;
     }

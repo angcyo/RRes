@@ -203,6 +203,24 @@ class MainActivity : AppCompatActivity() {
 //            .gradientColors(Color.RED, Color.BLUE)
 //            .cornerRadius(20f)
             .doIt()
+
+        findViewById<View>(R.id.view7_1).background = RDrawable.get(this)
+            .shape(GradientDrawable.OVAL)
+            .gradientType(GradientDrawable.SWEEP_GRADIENT)
+            .gradientOrientation(GradientDrawable.Orientation.TOP_BOTTOM)
+            .gradientColors(intArrayOf("#004286FF".toColor(), "#224286FF".toColor(), "#884286FF".toColor()))
+            .addLayer()
+            .reset()
+            .shape(GradientDrawable.OVAL)
+            .solidColor("#224286FF".toColor())
+            .addLayer()
+            .layerInset(20)
+            .solidColor("#444286FF".toColor())
+            .addLayer()
+            .layerInset(40)
+            .solidColor("#664286FF".toColor())
+            .addLayer()
+            .get()
     }
 
     override fun onPostResume() {
@@ -215,4 +233,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.view2).background = drawable4
         drawable1
     }
+}
+
+public fun String.toColor(): Int {
+    return Color.parseColor(this)
 }
