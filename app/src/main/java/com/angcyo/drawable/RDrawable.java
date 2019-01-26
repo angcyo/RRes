@@ -37,10 +37,6 @@ public class RDrawable {
      * 保存状态对应的Drawable
      */
     private LinkedHashMap<Integer, Drawable> stateLinkedHashMap = new LinkedHashMap<>();
-    /**
-     * 保存layer对应的Drawable
-     */
-    private LinkedHashMap<Integer, Drawable> layerLinkedHashMap = new LinkedHashMap<>();
 
     private Drawable normalDrawable;
 
