@@ -3,6 +3,9 @@
 
 ![](https://raw.githubusercontent.com/angcyo/RDrawable/master/art/png3.png)
 
+
+使用代码的方式, 创建Animation. [传送门](https://github.com/angcyo/RDrawable/blob/master/README_ANIM.md)
+
 ---
 
 ```java
