@@ -123,6 +123,18 @@ class MainActivity : AppCompatActivity() {
             .andRippleContent()
             .ripple()
 
+        findViewById<View>(R.id.view4_3).background = RDrawable.get(this)
+            .solidColor(Color.WHITE)
+            .addLayer()
+            .andReset()
+            .circle(Color.YELLOW)
+            .addLayer()
+            .andReset()
+            .shape(GradientDrawable.OVAL)
+            .stroke(10, Color.BLUE)
+            .layerInset(10)
+            .addLayer()
+            .get()
 
         findViewById<View>(R.id.view5_1).background = RDrawable.get(this)
             .lineColor(Color.GREEN)

@@ -602,6 +602,9 @@ public class RDrawable {
 
     private LayerDrawable layerDrawable;
 
+    //低版本兼容的 addLayer (added in API level 23)
+    private Drawable[] drawables;
+
     private boolean useLayer = false;
 
     /**
@@ -757,11 +760,35 @@ public class RDrawable {
 
     public RDrawable addLayer(Drawable drawable) {
         ensureLayer();
-        int layer = layerDrawable.addLayer(drawable);
-        layerDrawable.setLayerInset(layer, layerInsetLeft,
-                layerInsetTop,
-                layerInsetRight,
-                layerInsetBottom);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int layer = layerDrawable.addLayer(drawable);
+            layerDrawable.setLayerInset(layer, layerInsetLeft,
+                    layerInsetTop,
+                    layerInsetRight,
+                    layerInsetBottom);
+        } else {
+            Drawable[] old = this.drawables;
+            int oldSize = 0;
+            if (old != null) {
+                oldSize = old.length;
+            }
+            Drawable[] news = new Drawable[oldSize + 1];
+            if (old != null) {
+                System.arraycopy(old, 0, news, 0, oldSize);
+            }
+            news[oldSize] = drawable;
+
+            this.drawables = news;
+
+            //低版本不支持单独为每一个drawable设置 layerInset
+            layerDrawable = new LayerDrawable(news);
+            for (int i = 0; i < news.length; i++) {
+                layerDrawable.setLayerInset(i, layerInsetLeft,
+                        layerInsetTop,
+                        layerInsetRight,
+                        layerInsetBottom);
+            }
+        }
         lastDrawable = layerDrawable;
         return this;
     }
@@ -1090,14 +1117,16 @@ public class RDrawable {
         if (needWrapper()) {
             //需要旋转围绕
             if (toDegrees != NO_INT) {
-                RotateDrawable rotateDrawable = new RotateDrawable();
-                rotateDrawable.setDrawable(drawable);
-                rotateDrawable.setFromDegrees(fromDegrees);
-                rotateDrawable.setToDegrees(toDegrees);
-                rotateDrawable.setPivotX(pivotX);
-                rotateDrawable.setPivotY(pivotY);
-                rotateDrawable.setLevel(level);
-                result = rotateDrawable;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    RotateDrawable rotateDrawable = new RotateDrawable();
+                    rotateDrawable.setDrawable(drawable);
+                    rotateDrawable.setFromDegrees(fromDegrees);
+                    rotateDrawable.setToDegrees(toDegrees);
+                    rotateDrawable.setPivotX(pivotX);
+                    rotateDrawable.setPivotY(pivotY);
+                    rotateDrawable.setLevel(level);
+                    result = rotateDrawable;
+                }
             }
             if (scaleWidth != NO_INT && scaleHeight != NO_INT) {
                 /**
