@@ -87,6 +87,46 @@ RDrawable.get(applicationContext)
 
 [更多属性](https://github.com/angcyo/RDrawable/blob/master/app/src/main/java/com/angcyo/drawable/RDrawable.java)
 
+
+### 注意:
+
+`RotateDrawable` 属性的相关API都是 `added in API level 21` 所以低版本不支持 `rotate` 操作.
+
+`addLayer` `added in API level 23` 所以 低版本不支持为 每一个Drawable 设置 `layerInset` .
+
+兼容代码如下:
+```
+if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int layer = layerDrawable.addLayer(drawable);
+            layerDrawable.setLayerInset(layer, layerInsetLeft,
+                    layerInsetTop,
+                    layerInsetRight,
+                    layerInsetBottom);
+        } else {
+            Drawable[] old = this.drawables;
+            int oldSize = 0;
+            if (old != null) {
+                oldSize = old.length;
+            }
+            Drawable[] news = new Drawable[oldSize + 1];
+            if (old != null) {
+                System.arraycopy(old, 0, news, 0, oldSize);
+            }
+            news[oldSize] = drawable;
+
+            this.drawables = news;
+
+            //低版本不支持单独为每一个drawable设置 layerInset
+            layerDrawable = new LayerDrawable(news);
+            for (int i = 0; i < news.length; i++) {
+                layerDrawable.setLayerInset(i, layerInsetLeft,
+                        layerInsetTop,
+                        layerInsetRight,
+                        layerInsetBottom);
+            }
+        }
+```
+
 ---
 **群内有`各(pian)种(ni)各(jin)样(qun)`的大佬,等你来撩.**
 
