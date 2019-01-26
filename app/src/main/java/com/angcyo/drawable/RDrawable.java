@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.*;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -163,21 +165,35 @@ public class RDrawable {
     private int layerInsetBottom = 0;
     private int layerInsetTop = 0;
 
-    //</editor-fold>
+    //</editor-fold desc="LayerDrawable 相关属性">
 
     //<editor-fold desc="操作属性">
 
     /**
      * 重置所有值到初始化状态
+     * 并且保留 lastDrawable , 可以用来 进行 clip/inset/rotate/scale 操作
+     */
+    public RDrawable andReset() {
+        resetValue();
+        return this;
+    }
+
+    /**
+     * 重置所有值到初始化状态, 包括 lastDrawable
      */
     public RDrawable reset() {
-        resetGradientValue();
-        resetLayoutValue();
-        resetRippleValue();
+        resetValue();
 
         //lastDrawable 为null时, 调用normal()方法, 会调用一次doIt()
         lastDrawable = null;
         return this;
+    }
+
+    private void resetValue() {
+        resetGradientValue();
+        resetLayoutValue();
+        resetRippleValue();
+        resetWrapperValue();
     }
 
     private void resetGradientValue() {
@@ -211,6 +227,8 @@ public class RDrawable {
         layerInsetRight = 0;
         layerInsetBottom = 0;
         layerInsetTop = 0;
+
+        useLayer = false;
     }
 
     /**
@@ -498,7 +516,6 @@ public class RDrawable {
         return this;
     }
 
-
     //</editor-fold desc="Drawable状态配置">
 
     //<editor-fold desc="Ripple 相关方法和属性">
@@ -538,7 +555,8 @@ public class RDrawable {
      */
     public RDrawable andRipple() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            lastDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor), rippleContentDrawable, rippleMaskDrawable);
+            lastDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor),
+                    rippleContentDrawable, rippleMaskDrawable);
         }
         return this;
     }
@@ -550,8 +568,9 @@ public class RDrawable {
      */
     public Drawable ripple() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            lastDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor), rippleContentDrawable, rippleMaskDrawable);
+            andRipple();
         } else {
+            //不支持ripple时, 打成 state
             if (stateLinkedHashMap.isEmpty()) {
                 if (normalDrawable == null) {
                     if (rippleContentDrawable != null && rippleMaskDrawable != null) {
@@ -583,6 +602,8 @@ public class RDrawable {
 
     private LayerDrawable layerDrawable;
 
+    private boolean useLayer = false;
+
     /**
      * 是否需要使用 LayerDrawable 包裹 Drawable
      */
@@ -590,7 +611,8 @@ public class RDrawable {
         return layerInsetLeft != 0 ||
                 layerInsetRight != 0 ||
                 layerInsetTop != 0 ||
-                layerInsetBottom != 0;
+                layerInsetBottom != 0 ||
+                useLayer;
     }
 
     /**
@@ -748,9 +770,222 @@ public class RDrawable {
         if (layerDrawable == null) {
             layerDrawable = new LayerDrawable(new Drawable[]{});
         }
+        useLayer = true;
     }
 
     //</editor-fold desc="LayerDrawable 相关方法和属性">
+
+    //<editor-fold desc="DrawableWrapper 相关属性">
+
+    /**
+     * 有些特性需要配合 DrawableWrapper 才能有效, 比如: clip/inset/rotate/scale
+     */
+    final int MAX_LEVEL = 10_000;
+    /**
+     * [0,10000]
+     *
+     * @see Drawable#setLevel(int)
+     */
+    private int level = -1;
+
+    /**
+     * 旋转
+     */
+    private float pivotX = 0.5f;
+    private float pivotY = 0.5f;
+    private float fromDegrees = 0f;
+    private float toDegrees = NO_INT;
+
+    /**
+     * 缩放
+     */
+    // 将原来的宽高, 缩放到多少倍, 只能取[0-1]的值
+    private int scaleGravity = Gravity.CENTER;
+    //[0-1]
+    private float scaleWidth = NO_INT;
+    //[0-1]
+    private float scaleHeight = NO_INT;
+
+    /**
+     * 剪切
+     */
+    private int clipOrientation = NO_INT;
+    //从哪个方向开始剪切
+    private int clipGravity = Gravity.CENTER;
+    //剪切的比例, [0-1]. 表示保留原来的多少内容, 1保留原来的全部内容
+    private float clipFactor = 1f;
+
+    /**
+     * 插入
+     */
+    private int insetLeft = NO_INT;
+    private int insetTop = NO_INT;
+    private int insetRight = NO_INT;
+    private int insetBottom = NO_INT;
+
+    //重置值
+    private void resetWrapperValue() {
+        pivotX = 0.5f;
+        pivotY = 0.5f;
+        level = -1;
+        fromDegrees = 0f;
+        toDegrees = NO_INT;
+
+        scaleGravity = Gravity.CENTER;
+        scaleWidth = NO_INT;
+        scaleHeight = NO_INT;
+
+        clipOrientation = NO_INT;
+        clipGravity = Gravity.CENTER;
+        clipFactor = 1f;
+
+        insetLeft = NO_INT;
+        insetTop = NO_INT;
+        insetRight = NO_INT;
+        insetBottom = NO_INT;
+    }
+
+    /**
+     * 是否需要使用DrawableWrapper 包裹
+     */
+    private boolean needWrapper() {
+        return level > 0;
+    }
+
+    /**
+     * 旋转角度, 从时钟 3点钟方向, 顺时针开始计算
+     */
+    public RDrawable rotate(float degrees) {
+        fromDegrees = 0f;
+        toDegrees = degrees;
+        level = MAX_LEVEL;
+        return this;
+    }
+
+    /**
+     * 立即rotate
+     */
+    public RDrawable andRotate(float degrees) {
+        rotate(degrees);
+        if (lastDrawable == null) {
+            lastDrawable = configGradient();
+        }
+        lastDrawable = configWrapper(lastDrawable);
+        return this;
+    }
+
+    /**
+     * 作用中心点的比例位置
+     */
+    public RDrawable pivotX(float pivotX) {
+        this.pivotX = pivotX;
+        return this;
+    }
+
+    public RDrawable pivotY(float pivotY) {
+        this.pivotY = pivotY;
+        return this;
+    }
+
+    public RDrawable scaleWidth(float scaleWidth) {
+        scale(scaleWidth, 1f);
+        return this;
+    }
+
+    public RDrawable scaleHeight(float scaleHeight) {
+        scale(1f, scaleHeight);
+        return this;
+    }
+
+    public RDrawable scale(float scaleWidth, float scaleHeight) {
+        this.scaleHeight = scaleHeight;
+        this.scaleWidth = scaleWidth;
+        level = MAX_LEVEL;
+        return this;
+    }
+
+    /**
+     * 立即执行scale
+     */
+    public RDrawable andScale(float scaleWidth, float scaleHeight) {
+        scale(scaleWidth, scaleHeight);
+        if (lastDrawable == null) {
+            lastDrawable = configGradient();
+        }
+        lastDrawable = configWrapper(lastDrawable);
+        return this;
+    }
+
+    public RDrawable clipWidth(float factor) {
+        clipOrientation = ClipDrawable.HORIZONTAL;
+        clipFactor = factor;
+        level = MAX_LEVEL;
+        return this;
+    }
+
+    public RDrawable clipHeight(float factor) {
+        clipOrientation = ClipDrawable.VERTICAL;
+        clipFactor = factor;
+        level = MAX_LEVEL;
+        return this;
+    }
+
+    public RDrawable clipGravity(int gravity) {
+        clipGravity = gravity;
+        return this;
+    }
+
+    public RDrawable andClipWidth(float factor) {
+        clipWidth(factor);
+        if (lastDrawable == null) {
+            lastDrawable = configGradient();
+        }
+        lastDrawable = configWrapper(lastDrawable);
+        return this;
+    }
+
+    public RDrawable andClipHeight(float factor) {
+        clipHeight(factor);
+        if (lastDrawable == null) {
+            lastDrawable = configGradient();
+        }
+        lastDrawable = configWrapper(lastDrawable);
+        return this;
+    }
+
+    public RDrawable inset(int inset) {
+        inset(inset, inset, inset, inset);
+        return this;
+    }
+
+    public RDrawable inset(int insetLeft, int insetTop,
+                           int insetRight, int insetBottom) {
+        level = MAX_LEVEL;
+        this.insetLeft = insetLeft;
+        this.insetTop = insetTop;
+        this.insetRight = insetRight;
+        this.insetBottom = insetBottom;
+        return this;
+    }
+
+    /**
+     * 获取操作属性(clip/inset/rotate/scale)后的Drawable
+     */
+    public Drawable wrapper() {
+        if (lastDrawable == null) {
+            lastDrawable = configGradient();
+        }
+        lastDrawable = configWrapper(lastDrawable);
+        return lastDrawable;
+    }
+
+    public RDrawable andWrapper() {
+        wrapper();
+        return this;
+    }
+
+    //</editor-fold desc="DrawableWrapper 相关属性">
+
 
     //<editor-fold desc="生成可用的Drawable">
 
@@ -771,9 +1006,6 @@ public class RDrawable {
      * 返回最后一次创建的有效Drawable, 作用类似于 doIt()
      */
     public Drawable get() {
-        if (layerDrawable != null) {
-            return layerDrawable;
-        }
         if (lastDrawable == null) {
             doIt();
         }
@@ -784,7 +1016,18 @@ public class RDrawable {
      * 使用此方法, 获取最终的Drawable
      */
     public Drawable doIt() {
+        GradientDrawable gradientDrawable = configGradient();
+        lastDrawable = configWrapper(gradientDrawable);
 
+        //判断是否需要使用layer
+        if (useLayer() && layerDrawable == null) {
+            andLayer();
+        }
+
+        return lastDrawable;
+    }
+
+    private GradientDrawable configGradient() {
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setShape(shape);
         if (strokeWidth != NO_INT) {
@@ -839,13 +1082,58 @@ public class RDrawable {
             }
         }
 
-        lastDrawable = gradientDrawable;
+        return gradientDrawable;
+    }
 
-        if (useLayer() && layerDrawable == null) {
-            andLayer();
+    private Drawable configWrapper(Drawable drawable) {
+        Drawable result = drawable;
+        if (needWrapper()) {
+            //需要旋转围绕
+            if (toDegrees != NO_INT) {
+                RotateDrawable rotateDrawable = new RotateDrawable();
+                rotateDrawable.setDrawable(drawable);
+                rotateDrawable.setFromDegrees(fromDegrees);
+                rotateDrawable.setToDegrees(toDegrees);
+                rotateDrawable.setPivotX(pivotX);
+                rotateDrawable.setPivotY(pivotY);
+                rotateDrawable.setLevel(level);
+                result = rotateDrawable;
+            }
+            if (scaleWidth != NO_INT && scaleHeight != NO_INT) {
+                /**
+                 * 宽高缩放的理解, 有点难; scaleWidth/scaleHeight/level 3和配合才能实现效果
+                 * 具体算法请查看
+                 * @see ScaleDrawable#onBoundsChange(Rect)
+                 */
+                level = 5_000;
+
+                float sw = (1 - scaleWidth) * MAX_LEVEL / (MAX_LEVEL - level);
+                float sh = (1 - scaleHeight) * MAX_LEVEL / (MAX_LEVEL - level);
+
+                ScaleDrawable scaleDrawable = new ScaleDrawable(result, scaleGravity,
+                        sw, sh);
+                scaleDrawable.setLevel(level);
+                result = scaleDrawable;
+            }
+            if (clipOrientation != NO_INT) {
+                ClipDrawable clipDrawable = new ClipDrawable(result, clipGravity, clipOrientation);
+                clipDrawable.setLevel((int) (MAX_LEVEL * clipFactor));
+                result = clipDrawable;
+            }
+            if (insetLeft != NO_INT &&
+                    insetTop != NO_INT &&
+                    insetRight != NO_INT &&
+                    insetBottom != NO_INT) {
+                level = MAX_LEVEL;
+
+                InsetDrawable insetDrawable = new InsetDrawable(result,
+                        insetLeft, insetTop, insetRight, insetBottom);
+                insetDrawable.setLevel(level);
+                result = insetDrawable;
+            }
         }
 
-        return lastDrawable;
+        return result;
     }
 
     //</editor-fold desc="生成可用的Drawable">
