@@ -90,6 +90,8 @@ RDrawable.get(applicationContext)
 
 ### 注意:
 
+`minSdk>=16`
+
 `RotateDrawable` 属性的相关API都是 `added in API level 21` 所以低版本不支持 `rotate` 操作.
 
 `addLayer` `added in API level 23` 所以 低版本不支持为 每一个Drawable 设置 `layerInset` .
