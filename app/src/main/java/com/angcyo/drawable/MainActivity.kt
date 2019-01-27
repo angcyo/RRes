@@ -107,6 +107,8 @@ class MainActivity : AppCompatActivity() {
             .animationEnd {
                 Log.e("angcyo", "test3....")
             }
+            .infinite()
+            .doSet()
             .start(2000)
 
         findViewById<View>(R.id.view2_4).background = RDrawable.get(this)
@@ -343,6 +345,16 @@ class MainActivity : AppCompatActivity() {
             .addLayer()
             .get()
 
+        RAnim.get(findViewById<View>(R.id.view7_1))
+            .rotate(0f, 360f)
+            .infinite()
+            .setAndReset()
+            .scale(1f, 0.2f)
+            .infinite()
+            .setAndReset()
+            .doSet()
+            .start(1000)
+
         findViewById<View>(R.id.view7_2).background = RDrawable.get(applicationContext)
             .shape(GradientDrawable.OVAL)
             .gradientType(GradientDrawable.SWEEP_GRADIENT)
@@ -361,6 +373,14 @@ class MainActivity : AppCompatActivity() {
             .addLayer()
             .andRotate(60f)
             .get()
+
+        RAnim.get(findViewById<View>(R.id.view7_2))
+            .rotate(0f, 360f)
+            .infinite()
+            .setAndReset()
+            .startOffset(2000)
+            .doSet()
+            .start(1000)
 
         findViewById<View>(R.id.view7_3).background = RDrawable.get(applicationContext)
             .shape(GradientDrawable.OVAL)

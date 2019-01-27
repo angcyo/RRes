@@ -45,7 +45,7 @@ public class RAnim {
     private boolean fillAfter = false;
     private boolean fillBefore = false;
 
-    private Interpolator interpolator = null;
+    private Interpolator interpolator = new LinearInterpolator();
 
     private int repeatCount = 0;
     private int repeatMode = Animation.RESTART;
@@ -60,7 +60,7 @@ public class RAnim {
         duration = 0L;
         fillAfter = false;
         fillBefore = false;
-        interpolator = null;
+        interpolator = new LinearInterpolator();
         repeatCount = 0;
         repeatMode = Animation.RESTART;
         startOffset = 0L;
@@ -75,16 +75,6 @@ public class RAnim {
 
     public RAnim startOffset(long startOffset) {
         this.startOffset = startOffset;
-        return this;
-    }
-
-    /**
-     * 单独用来设置 animationSet 的延迟. 防止数据污染
-     */
-    public RAnim startOffsetAnimationSet(long startOffset) {
-        if (animationSet != null) {
-            animationSet.setStartOffset(startOffset);
-        }
         return this;
     }
 
@@ -331,8 +321,22 @@ public class RAnim {
 
     private AnimationSet animationSet = null;
 
+    public RAnim setAndReset() {
+        set();
+        reset();
+        return this;
+    }
+
     public RAnim set() {
         return set(true);
+    }
+
+    public RAnim doSet() {
+        config(animationSet);
+        if (animationSet != null) {
+            animationSet.setStartOffset(startOffset);
+        }
+        return this;
     }
 
     public RAnim set(boolean shareInterpolator) {
@@ -404,6 +408,7 @@ public class RAnim {
             } else {
                 animation.setStartOffset(startOffset);
             }
+            //Repeat 属性, 设置在AnimationSet 中无效, 需要单独设置在Animation中
             animation.setRepeatCount(repeatCount);
             animation.setRepeatMode(repeatMode);
             animation.setDuration(duration);
