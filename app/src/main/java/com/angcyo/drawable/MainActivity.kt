@@ -6,11 +6,13 @@ import android.graphics.Shader
 import android.graphics.SweepGradient
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
+import com.angcyo.library.RAnim
+import com.angcyo.library.RDrawable
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,9 +1,15 @@
-package com.angcyo.drawable;
+package com.angcyo.library;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import android.view.View;
-import android.view.animation.*;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.Interpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -471,6 +477,12 @@ public class RAnim {
         return start();
     }
     //</editor-fold desc="获取Animation">
+
+
+    //<editor-fold desc="Animator 相关属性和方法">
+
+
+    //</editor-fold desc="Animator 相关属性和方法">
 
 
     //</editor-fold desc="注解">

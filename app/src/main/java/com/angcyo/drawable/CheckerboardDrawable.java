@@ -2,8 +2,8 @@ package com.angcyo.drawable;
 
 import android.graphics.*;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class CheckerboardDrawable extends Drawable {
 
