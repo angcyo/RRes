@@ -140,7 +140,7 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo:RRes:1.0.0'
+    implementation 'com.github.angcyo:RRes:1.0.1'
 }
 ```
 
