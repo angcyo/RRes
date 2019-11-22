@@ -1,4 +1,7 @@
 # RDrawable
+
+[![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx) [![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)
+
 使用代码的方式,创建Drawable
 
 ![](https://raw.githubusercontent.com/angcyo/RDrawable/master/art/png3.png)
