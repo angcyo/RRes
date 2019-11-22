@@ -138,6 +138,12 @@ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 ---
 **群内有`各(pian)种(ni)各(jin)样(qun)`的大佬,等你来撩.**
 
+```kotlin
+dependencies {
+    implementation 'com.github.angcyo:RRes:1.0.0'
+}
+```
+
 # 联系作者
 [点此快速加群](https://shang.qq.com/wpa/qunwpa?idkey=cbcf9a42faf2fe730b51004d33ac70863617e6999fce7daf43231f3cf2997460)
 
